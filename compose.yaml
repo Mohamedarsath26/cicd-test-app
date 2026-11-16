@@ -4,3 +4,14 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
+
+  # Cloudflare quick tunnel: DEMO ONLY.
+  # Gives a random https://*.trycloudflare.com URL that changes on every
+  # restart. Replace with a named tunnel (--token) once a domain is on
+  # Cloudflare. Talks to `web` over the private compose network.
+  cloudflared:
+    image: cloudflare/cloudflared:2026.11.0
+    command: tunnel --no-autoupdate --url http://web:80
+    depends_on:
+      - web
+    restart: unless-stopped
